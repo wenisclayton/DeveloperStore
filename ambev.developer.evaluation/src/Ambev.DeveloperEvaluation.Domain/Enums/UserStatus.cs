@@ -1,9 +1,9 @@
 namespace Ambev.DeveloperEvaluation.Domain.Enums;
 
-public enum UserStatus
+public enum UserStatus : byte
 {
     Unknown = 0,
-    Active,
-    Inactive,
-    Suspended
+    Active = 1,
+    Inactive = 2,
+    Suspended = 3
 }

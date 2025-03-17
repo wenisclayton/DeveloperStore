@@ -36,9 +36,6 @@ namespace Ambev.DeveloperEvaluation.Common.Security
                     ClockSkew = TimeSpan.Zero
                 };
             });
-
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-
             return services;
         }
     }
