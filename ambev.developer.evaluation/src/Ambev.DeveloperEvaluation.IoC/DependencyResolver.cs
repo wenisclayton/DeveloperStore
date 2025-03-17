@@ -1,5 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.IoC.ModuleInitializers;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Ambev.DeveloperEvaluation.IoC.ModuleInitializers;
 
 namespace Ambev.DeveloperEvaluation.IoC;
 
