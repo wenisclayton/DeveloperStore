@@ -1,0 +1,518 @@
+{
+	"info": {
+		"_postman_id": "fb29b842-d950-4d0a-aaea-9f2cc429be59",
+		"name": "Ambev.DeveloperEvaluation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1998389"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Customer\",\r\n  \"password\": \"123@Senha\",\r\n  \"phone\": \"62999999999\",\r\n  \"email\": \"teste@gteste.com\",\r\n  \"status\": 1,\r\n  \"role\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Users",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Users"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://localhost:7656/api/Users' \\\r\n  -H 'accept: text/plain' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"username\": \"Customer\",\r\n  \"password\": \"senha123\",\r\n  \"phone\": \"62998077173\",\r\n  \"email\": \"wenisclayton@gmail.com\",\r\n  \"status\": 1,\r\n  \"role\": 1\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Converte a resposta para JSON\r",
+							"let responseData = pm.response.json();\r",
+							"// Extrai o valor de \"id\" do objeto \"data\"\r",
+							"let token = responseData.data.data.token;\r",
+							"// Define a variável de ambiente \"sale\" com o valor extraído\r",
+							"pm.environment.set(\"access_token\", token);\r",
+							"pm.collectionVariables.set (\"access_token\", token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"teste@gteste.com\",\r\n  \"password\": \"123@Senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Auth",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Auth"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://localhost:7656/api/Auth' \\\r\n  -H 'accept: text/plain' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"teste@gteste.com\",\r\n  \"password\": \"123@Senha\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Converte a resposta para JSON\r",
+							"let responseData = pm.response.json();\r",
+							"// Extrai o valor de \"id\" do objeto \"data\"\r",
+							"let saleId = responseData.data.id;\r",
+							"// Define a variável de ambiente \"sale\" com o valor extraído\r",
+							"pm.environment.set(\"sale\", saleId);\r",
+							"pm.collectionVariables.set (\"sale\", saleId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set (\"randomNum\", _.random (1,10));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"saleNumber\": \"{{$randomInt}}\",\r\n    \"saleDate\": \"{{$isoTimestamp}}\",\r\n    \"customerId\": \"{{Customer - Uncle Bob}}\",\r\n    \"branchId\": \"{{Branch - Central}}\",\r\n    \"items\": [\r\n        {\r\n            \"productId\": \"{{Product - Clean Architecture}}\",\r\n            \"quantity\": {{randomNum}},\r\n            \"unitPrice\": {{$randomPrice}}\r\n        },\r\n        {\r\n            \"productId\": \"{{Product - Domain-Driven Design}}\",\r\n            \"quantity\": {{randomNum}},\r\n            \"unitPrice\": {{$randomPrice}}\r\n        },\r\n        {\r\n            \"productId\": \"{{Product - Domain-Driven Design}}\",\r\n            \"quantity\": {{randomNum}},\r\n            \"unitPrice\": {{$randomPrice}}\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Sales",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Sales"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://localhost:7656/api/Sales' \\\r\n  -H 'accept: text/plain' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"saleNumber\": \"129\",\r\n  \"saleDate\": \"2025-03-11T23:46:10.551Z\",\r\n  \"customerId\": \"118dd0e4-6145-48b7-b2c4-82809383cdf1\",\r\n  \"branchId\": \"53b0fcf4-a9ff-4a5d-89d3-956aeb0b2cdd\",\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"0c8e8de1-724d-443f-aeb3-23e603f959df\",\r\n      \"quantity\": 15,\r\n      \"unitPrice\": 13.55,\r\n      \"discount\": 3\r\n    }\r\n  ]\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Change Sale",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set (\"randomNum\", _.random (1,10));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"saleNumber\": \"{{$randomInt}}\",\r\n    \"saleDate\": \"{{$isoTimestamp}}\",\r\n    \"customerId\": \"{{Customer - Uncle Bob}}\",\r\n    \"branchId\": \"{{Branch - Regional Goiânia}}\",\r\n    \"items\": [\r\n        {\r\n            \"productId\": \"{{Product - Domain-Driven Design}}\",\r\n            \"quantity\": {{randomNum}},\r\n            \"unitPrice\": {{$randomPrice}}\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Sales/{{sale}}",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Sales",
+						"{{sale}}"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'PUT' \\\r\n  'https://localhost:7656/api/Sales/bd072304-9cab-4eb6-8904-6bd767511be5' \\\r\n  -H 'accept: text/plain' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"saleNumber\": 0,\r\n  \"saleDate\": \"2025-03-12T21:19:04.513Z\",\r\n  \"customerId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"branchId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"quantity\": 0,\r\n      \"unitPrice\": 0,\r\n      \"discount\": 0\r\n    }\r\n  ]\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					}
+				],
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Sales/{{sale}}",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Sales",
+						"{{sale}}"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'GET' \\\r\n  'https://localhost:7656/api/Sales/d1074493-4540-4ee7-b40d-34c3c4a69fa6' \\\r\n  -H 'accept: text/plain'"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Sale",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					}
+				],
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Sales/{{sale}}/cancel",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Sales",
+						"{{sale}}",
+						"cancel"
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://localhost:7181/api/Sales/d1074493-4540-4ee7-b40d-34c3c4a69fa6/cancel' \\\r\n  -H 'accept: text/plain' \\\r\n  -d ''"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Sale Item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					}
+				],
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/Sales/{{sale}}/items/:saleItem/cancel",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"Sales",
+						"{{sale}}",
+						"items",
+						":saleItem",
+						"cancel"
+					],
+					"variable": [
+						{
+							"key": "saleItem",
+							"value": "7ec3cfda-b887-4fbb-a608-d62d79c06237"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://localhost:7656/api/Sales/5c1e19ff-6716-4eb8-8b5a-de1d69852c9c/items/60014196-add6-4845-8c12-86247b743a87/cancel' \\\r\n  -H 'accept: text/plain' \\\r\n  -d ''"
+			},
+			"response": []
+		},
+		{
+			"name": "Get-audit-events",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "https://{{servidor}}:{{port}}/api/audit-events?eventType=1&entityType=sale&startDate=2025-03-17T00:24:10.883Z&endDate=2025-03-17T23:59:59.000Z",
+					"protocol": "https",
+					"host": [
+						"{{servidor}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"",
+						"api",
+						"audit-events"
+					],
+					"query": [
+						{
+							"key": "eventType",
+							"value": "1",
+							"description": "Created = 1 | Changed = 2 | Deleted = 3 | Canceled = 4"
+						},
+						{
+							"key": "entityType",
+							"value": "sale"
+						},
+						{
+							"key": "startDate",
+							"value": "2025-03-17T00:24:10.883Z"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-03-17T23:59:59.000Z"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X 'GET' \\\r\n  'https://localhost:7656/api/audit-events?eventType=1&entityType=sale' \\\r\n  -H 'accept: */*'"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "port",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Product - Domain-Driven Design",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Product - Clean Architecture",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Customer - Barbara Liskov",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Customer - Uncle Bob",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Branch - Regional Goiânia",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Branch - Central",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "servidor",
+			"value": "l",
+			"type": "string"
+		},
+		{
+			"key": "randomNum",
+			"value": ""
+		},
+		{
+			"key": "sale",
+			"value": ""
+		},
+		{
+			"key": "Product - O Programador Pragmático",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
