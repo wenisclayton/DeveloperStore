@@ -1,0 +1,428 @@
+ambev.developer.evaluation
+│   src
+│   ├── Ambev.DeveloperEvaluation.Application
+│   │   ├── Auth
+│   │   │   └── AuthenticateUser
+│   │   │       ├── AuthenticateUserCommand.cs
+│   │   │       ├── AuthenticateUserHandler.cs
+│   │   │       ├── AuthenticateUserProfile.cs
+│   │   │       ├── AuthenticateUserResult.cs
+│   │   │       └── AuthenticateUserValidator.cs
+│   │   ├── Sales
+│   │   │   ├── CancelSale
+│   │   │   │   ├── CancelSaleCommand.cs
+│   │   │   │   ├── CancelSaleHandler.cs
+│   │   │   │   ├── CancelSaleProfile.cs
+│   │   │   │   ├── CancelSaleResult.cs
+│   │   │   │   └── CancelSaleValidator.cs
+│   │   │   ├── CancelSaleItem
+│   │   │   │   ├── CancelSaleItemCommand.cs
+│   │   │   │   ├── CancelSaleItemHandler.cs
+│   │   │   │   ├── CancelSaleItemProfile.cs
+│   │   │   │   ├── CancelSaleItemResult.cs
+│   │   │   │   └── CancelSaleItemValidator.cs
+│   │   │   ├── ChangeSale
+│   │   │   │   ├── ChangeSaleCommand.cs
+│   │   │   │   ├── ChangeSaleHandler.cs
+│   │   │   │   ├── ChangeSaleItemCommand.cs
+│   │   │   │   ├── ChangeSaleItemResult.cs
+│   │   │   │   ├── ChangeSaleProfile.cs
+│   │   │   │   ├── ChangeSaleResult.cs
+│   │   │   │   └── ChangeSaleValidator.cs
+│   │   │   ├── CreateSale
+│   │   │   │   ├── CreateSaleCommand.cs
+│   │   │   │   ├── CreateSaleCommandValidator.cs
+│   │   │   │   ├── CreateSaleHandler.cs
+│   │   │   │   ├── CreateSaleItemCommand.cs
+│   │   │   │   ├── CreateSaleItemCommandValidator.cs
+│   │   │   │   ├── CreateSaleProfile.cs
+│   │   │   │   └── CreateSaleResult.cs
+│   │   │   ├── GetSale
+│   │   │   │   ├── GetSaleCommand.cs
+│   │   │   │   ├── GetSaleHandler.cs
+│   │   │   │   ├── GetSaleItemResult.cs
+│   │   │   │   ├── GetSaleProfile.cs
+│   │   │   │   ├── GetSaleResult.cs
+│   │   │   │   └── GetSaleValidator.cs
+│   │   │   └── GetSales
+│   │   │       ├── GetSalesCommand.cs
+│   │   │       ├── GetSalesHandler.cs
+│   │   │       ├── GetSalesItemResult.cs
+│   │   │       ├── GetSalesProfile.cs
+│   │   │       ├── GetSalesResult.cs
+│   │   │       ├── GetSalesResultPaged.cs
+│   │   │       └── GetSalesValidator.cs
+│   │   ├── Users
+│   │   │   ├── CreateUser
+│   │   │   │   ├── CreateUserCommand.cs
+│   │   │   │   ├── CreateUserHandler.cs
+│   │   │   │   ├── CreateUserProfile.cs
+│   │   │   │   ├── CreateUserResult.cs
+│   │   │   │   └── CreateUserValidator.cs
+│   │   │   ├── DeleteUser
+│   │   │   │   ├── DeleteUserCommand.cs
+│   │   │   │   ├── DeleteUserHandler.cs
+│   │   │   │   ├── DeleteUserResponse.cs
+│   │   │   │   └── DeleteUserValidator.cs
+│   │   │   ├── GetUser
+│   │   │   │   ├── GetUserCommand.cs
+│   │   │   │   ├── GetUserHandler.cs
+│   │   │   │   ├── GetUserProfile.cs
+│   │   │   │   ├── GetUserResult.cs
+│   │   │   │   └── GetUserValidator.cs
+│   │   │   └── UpdateUser
+│   │   │       ├── UpdateHandler.cs
+│   │   │       ├── UpdateProfile.cs
+│   │   │       ├── UpdateUserCommand.cs
+│   │   │       ├── UpdateUserResult.cs
+│   │   │       └── UpdateUserValidator.cs
+│   │   ├── Ambev.DeveloperEvaluation.Application.csproj
+│   │   └── ApplicationLayer.cs
+│   ├── Ambev.DeveloperEvaluation.Common
+│   │   ├── Extensions
+│   │   │   └── StringExtensions.cs
+│   │   ├── HealthChecks
+│   │   │   └── HealthChecksExtension.cs
+│   │   ├── Logging
+│   │   │   └── LoggingExtension.cs
+│   │   ├── Pagination
+│   │   │   ├── PagedResult.cs
+│   │   │   └── PaginatedList.cs
+│   │   ├── Security
+│   │   │   ├── AuthenticationExtension.cs
+│   │   │   ├── BCryptPasswordHasher.cs
+│   │   │   ├── IJwtTokenGenerator.cs
+│   │   │   ├── IPasswordHasher.cs
+│   │   │   ├── IUser.cs
+│   │   │   └── JwtTokenGenerator.cs
+│   │   ├── Validation
+│   │   │   ├── ValidationBehavior.cs
+│   │   │   ├── ValidationErrorDetail.cs
+│   │   │   ├── ValidationResult.cs
+│   │   │   └── Validator.cs
+│   │   └── Ambev.DeveloperEvaluation.Common.csproj
+│   ├── Ambev.DeveloperEvaluation.Domain
+│   │   ├── Common
+│   │   │   └── BaseEntity.cs
+│   │   ├── Entities
+│   │   │   ├── AuditLog
+│   │   │   │   └── AuditEvent.cs
+│   │   │   ├── SaleAggregate
+│   │   │   │   ├── Branch.cs
+│   │   │   │   ├── Customer.cs
+│   │   │   │   ├── Product.cs
+│   │   │   │   ├── Sale.cs
+│   │   │   │   └── SaleItem.cs
+│   │   │   └── User.cs
+│   │   ├── Enums
+│   │   │   ├── AuditEventType.cs
+│   │   │   ├── UserRole.cs
+│   │   │   └── UserStatus.cs
+│   │   ├── Events
+│   │   │   ├── SaleAggregate
+│   │   │   │   ├── IntegrationsEvents
+│   │   │   │   │   ├── BaseIntegrationEvent.cs
+│   │   │   │   │   ├── SaleCancelledIntegrationEvent.cs
+│   │   │   │   │   ├── SaleCreatedIntegrationEvent.cs
+│   │   │   │   │   ├── SaleItemCancelledIntegrationEvent.cs
+│   │   │   │   │   └── SaleModifiedIntegrationEvent.cs
+│   │   │   │   └── Notifications
+│   │   │   │       ├── SaleCancelledEvent.cs
+│   │   │   │       ├── SaleChangedEvent.cs
+│   │   │   │       ├── SaleCreatedEvent.cs
+│   │   │   │       ├── SaleEvent.cs
+│   │   │   │       └── SaleItemCancelledEvent.cs
+│   │   │   └── UserRegisteredEvent.cs
+│   │   ├── Exceptions
+│   │   │   └── DomainException.cs
+│   │   ├── Repositories
+│   │   │   ├── IBranchRepository.cs
+│   │   │   ├── ICustomerRepository.cs
+│   │   │   ├── IDomainEventStore.cs
+│   │   │   ├── IProductRepository.cs
+│   │   │   ├── ISaleRepository.cs
+│   │   │   └── IUserRepository.cs
+│   │   ├── Services
+│   │   │   └── IUserService.cs
+│   │   ├── Specifications
+│   │   │   ├── ActiveUserSpecification.cs
+│   │   │   └── ISpecification.cs
+│   │   ├── Validation
+│   │   │   ├── EmailValidator.cs
+│   │   │   ├── PasswordValidator.cs
+│   │   │   ├── PhoneValidator.cs
+│   │   │   └── UserValidator.cs
+│   │   ├── Ambev.DeveloperEvaluation.Domain.csproj
+│   │   └── Ambev.DeveloperEvaluation.Domain.csproj.Backup.tmp
+│   ├── Ambev.DeveloperEvaluation.Integration
+│   │   ├── Adapters
+│   │   │   ├── ExternalAPIs
+│   │   │   └── Messaging
+│   │   │       └── RabbitMQ
+│   │   │           ├── CustomTypeNameSerializer.cs
+│   │   │           ├── RabbitMQConnectionFactory.cs
+│   │   │           ├── RabbitMQPublisher.cs
+│   │   │           └── RabbitMQSettings.cs
+│   │   ├── Events
+│   │   │   └── Handlers
+│   │   │       ├── SaleCancelledIntegrationEventHandler.cs
+│   │   │       ├── SaleChangedIntegrationEventHandler.cs
+│   │   │       ├── SaleCreatedIntegrationEventHandler.cs
+│   │   │       └── SaleItemCancelledIntegrationEventHandler.cs
+│   │   ├── Interfaces
+│   │   │   └── IRabbitMQPublisher.cs
+│   │   ├── Services
+│   │   └── Ambev.DeveloperEvaluation.Integration.csproj
+│   ├── Ambev.DeveloperEvaluation.IoC
+│   │   ├── ModuleInitializers
+│   │   │   ├── ApplicationModuleInitializer.cs
+│   │   │   ├── InfrastructureModuleInitializer.cs
+│   │   │   └── WebApiModuleInitializer.cs
+│   │   ├── Ambev.DeveloperEvaluation.IoC.csproj
+│   │   ├── DependencyResolver.cs
+│   │   └── IModuleInitializer.cs
+│   ├── Ambev.DeveloperEvaluation.MongoDB
+│   │   ├── bin
+│   │   │   └── Debug
+│   │   │       └── net8.0
+│   │   │           ├── Ambev.DeveloperEvaluation.Common.dll
+│   │   │           ├── Ambev.DeveloperEvaluation.Common.pdb
+│   │   │           ├── Ambev.DeveloperEvaluation.Domain.dll
+│   │   │           ├── Ambev.DeveloperEvaluation.Domain.pdb
+│   │   │           ├── Ambev.DeveloperEvaluation.MongoDB.deps.json
+│   │   │           ├── Ambev.DeveloperEvaluation.MongoDB.dll
+│   │   │           └── Ambev.DeveloperEvaluation.MongoDB.pdb
+│   │   ├── Extensions
+│   │   │   └── BsonDocumentConverter.cs
+│   │   ├── Models
+│   │   │   └── AuditLogEntry.cs
+│   │   ├── obj
+│   │   │   ├── Debug
+│   │   │   │   └── net8.0
+│   │   │   │       ├── ref
+│   │   │   │       │   └── Ambev.DeveloperEvaluation.MongoDB.dll
+│   │   │   │       ├── refint
+│   │   │   │       │   └── Ambev.DeveloperEvaluation.MongoDB.dll
+│   │   │   │       ├── .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+│   │   │   │       ├── Ambev.De.BA63B58A.Up2Date
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.AssemblyInfo.cs
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.AssemblyInfoInputs.cache
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.assets.cache
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.csproj.AssemblyReference.cache
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.csproj.BuildWithSkipAnalyzers
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.csproj.CoreCompileInputs.cache
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.csproj.FileListAbsolute.txt
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.dll
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.GeneratedMSBuildEditorConfig.editorconfig
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.GlobalUsings.g.cs
+│   │   │   │       ├── Ambev.DeveloperEvaluation.MongoDB.pdb
+│   │   │   │       └── Ambev.DeveloperEvaluation.MongoDB.sourcelink.json
+│   │   │   ├── Ambev.DeveloperEvaluation.MongoDB.csproj.nuget.dgspec.json
+│   │   │   ├── Ambev.DeveloperEvaluation.MongoDB.csproj.nuget.g.props
+│   │   │   ├── Ambev.DeveloperEvaluation.MongoDB.csproj.nuget.g.targets
+│   │   │   ├── project.assets.json
+│   │   │   └── project.nuget.cache
+│   │   ├── Repositories
+│   │   │   └── DomainEventStore.cs
+│   │   └── Ambev.DeveloperEvaluation.MongoDB.csproj
+│   ├── Ambev.DeveloperEvaluation.ORM
+│   │   ├── Extensions
+│   │   │   └── QueryableExtensions.cs
+│   │   ├── Mapping
+│   │   │   ├── SaleAggregate
+│   │   │   │   ├── BranchConfiguration.cs
+│   │   │   │   ├── CustomerConfiguration.cs
+│   │   │   │   ├── ProductConfiguration.cs
+│   │   │   │   ├── SaleConfiguration.cs
+│   │   │   │   └── SaleItemConfiguration.cs
+│   │   │   └── UserConfiguration.cs
+│   │   ├── Migrations
+│   │   │   ├── 20250313194935_InitialMigrations.cs
+│   │   │   ├── 20250313194935_InitialMigrations.Designer.cs
+│   │   │   └── DefaultContextModelSnapshot.cs
+│   │   ├── Repositories
+│   │   │   ├── BranchRepository.cs
+│   │   │   ├── CustomerRepository.cs
+│   │   │   ├── ProductRepository.cs
+│   │   │   ├── SaleRepository.cs
+│   │   │   └── UserRepository.cs
+│   │   ├── Ambev.DeveloperEvaluation.ORM.csproj
+│   │   └── DefaultContext.cs
+│   ├── Ambev.DeveloperEvaluation.RabbitSubscriber
+│   │   ├── .vs
+│   │   │   ├── Ambev.DeveloperEvaluation.RabbitSubscriber
+│   │   │   │   ├── CopilotIndices
+│   │   │   │   │   └── 17.13.433.20974
+│   │   │   │   │       ├── CodeChunks.db
+│   │   │   │   │       └── SemanticSymbols.db
+│   │   │   │   ├── DesignTimeBuild
+│   │   │   │   │   └── .dtbcache.v2
+│   │   │   │   ├── FileContentIndex
+│   │   │   │   │   └── 0591f22f-cd20-4059-b800-e41a8931f150.vsidx
+│   │   │   │   └── v17
+│   │   │   │       ├── .futdcache.v2
+│   │   │   │       ├── .suo
+│   │   │   │       ├── DocumentLayout.backup.json
+│   │   │   │       └── DocumentLayout.json
+│   │   │   └── ProjectEvaluation
+│   │   │       ├── ambev.developerevaluation.rabbitsubscriber.metadata.v9.bin
+│   │   │       ├── ambev.developerevaluation.rabbitsubscriber.projects.v9.bin
+│   │   │       └── ambev.developerevaluation.rabbitsubscriber.strings.v9.bin
+│   │   ├── IntegrationsEvents
+│   │   │   ├── BaseIntegrationEvent.cs
+│   │   │   ├── SaleCancelledIntegrationEvent.cs
+│   │   │   ├── SaleCreatedIntegrationEvent.cs
+│   │   │   ├── SaleItemCancelledIntegrationEvent.cs
+│   │   │   └── SaleModifiedIntegrationEvent.cs
+│   │   ├── Ambev.DeveloperEvaluation.RabbitSubscriber.csproj
+│   │   ├── CustomTypeNameSerializer.cs
+│   │   └── Program.cs
+│   └── Ambev.DeveloperEvaluation.WebApi
+│       ├── Common
+│       │   ├── ApiResponse.cs
+│       │   ├── ApiResponseWithData.cs
+│       │   ├── BaseController.cs
+│       │   └── PaginatedResponse.cs
+│       ├── Extensions
+│       │   ├── DatabaseInitializerExtensions.cs
+│       │   ├── InfraMongoDbResolver.cs
+│       │   └── RabbitMQServiceCollectionExtensions.cs
+│       ├── Features
+│       │   ├── AuditLog
+│       │   │   └── AuditEventsController.cs
+│       │   ├── Auth
+│       │   │   ├── AuthenticateUserFeature
+│       │   │   │   ├── AuthenticateUserProfile.cs
+│       │   │   │   ├── AuthenticateUserRequest.cs
+│       │   │   │   ├── AuthenticateUserRequestValidator.cs
+│       │   │   │   └── AuthenticateUserResponse.cs
+│       │   │   └── AuthController.cs
+│       │   ├── Sales
+│       │   │   ├── CancelSale
+│       │   │   │   ├── CancelSaleProfile.cs
+│       │   │   │   ├── CancelSaleRequest.cs
+│       │   │   │   ├── CancelSaleRequestValidator.cs
+│       │   │   │   └── CancelSaleResponse .cs
+│       │   │   ├── CancelSaleItem
+│       │   │   │   ├── CancelSaleItemProfile.cs
+│       │   │   │   ├── CancelSaleItemRequest.cs
+│       │   │   │   ├── CancelSaleItemRequestValidator.cs
+│       │   │   │   └── CancelSaleItemResponse.cs
+│       │   │   ├── ChangeSale
+│       │   │   │   ├── ChangeSaleItemRequest.cs
+│       │   │   │   ├── ChangeSaleItemRequestValidator.cs
+│       │   │   │   ├── ChangeSaleProfile.cs
+│       │   │   │   ├── ChangeSaleRequest.cs
+│       │   │   │   ├── ChangeSaleRequestValidator.cs
+│       │   │   │   └── ChangeSaleResponse.cs
+│       │   │   ├── CreateSale
+│       │   │   │   ├── _CreateSaleItem
+│       │   │   │   │   ├── CreateSaleItemProfile.cs
+│       │   │   │   │   ├── CreateSaleItemRequest.cs
+│       │   │   │   │   └── CreateSaleItemRequestValidator.cs
+│       │   │   │   ├── CreateSaleProfile.cs
+│       │   │   │   ├── CreateSaleRequest.cs
+│       │   │   │   ├── CreateSaleRequestValidator.cs
+│       │   │   │   └── CreateSaleResponse.cs
+│       │   │   ├── GetSale
+│       │   │   │   ├── GetSaleProfile.cs
+│       │   │   │   ├── GetSaleRequest.cs
+│       │   │   │   ├── GetSaleRequestValidator.cs
+│       │   │   │   ├── GetSaleResponse.cs
+│       │   │   │   └── GetSaleValidator.cs
+│       │   │   ├── GetSales
+│       │   │   │   ├── GetSalesProfile.cs
+│       │   │   │   ├── GetSalesRequest.cs
+│       │   │   │   ├── GetSalesRequestValidator.cs
+│       │   │   │   ├── GetSalesResponse.cs
+│       │   │   │   └── GetSaleValidator.cs
+│       │   │   └── SalesController.cs
+│       │   └── Users
+│       │       ├── CreateUser
+│       │       │   ├── CreateUserProfile.cs
+│       │       │   ├── CreateUserRequest.cs
+│       │       │   ├── CreateUserRequestValidator.cs
+│       │       │   └── CreateUserResponse.cs
+│       │       ├── DeleteUser
+│       │       │   ├── DeleteUserProfile.cs
+│       │       │   ├── DeleteUserRequest.cs
+│       │       │   └── DeleteUserRequestValidator.cs
+│       │       ├── GetUser
+│       │       │   ├── GetUserProfile.cs
+│       │       │   ├── GetUserRequest.cs
+│       │       │   ├── GetUserRequestValidator.cs
+│       │       │   └── GetUserResponse.cs
+│       │       ├── ListUsers
+│       │       │   ├── ListUserProfile.cs
+│       │       │   ├── ListUserRequest.cs
+│       │       │   ├── ListUserRequestValidator.cs
+│       │       │   └── ListUserResponse.cs
+│       │       ├── UpdateUser
+│       │       │   ├── UpdateUserProfile.cs
+│       │       │   ├── UpdateUserRequest.cs
+│       │       │   ├── UpdateUserRequestValidator.cs
+│       │       │   └── UpdateUserResponse.cs
+│       │       └── UsersController.cs
+│       ├── logs
+│       ├── Mappings
+│       │   └── CreateUserRequestProfile.cs
+│       ├── Middleware
+│       │   └── ValidationExceptionMiddleware.cs
+│       ├── Properties
+│       │   └── launchSettings.json
+│       ├── Ambev.DeveloperEvaluation.WebApi.csproj
+│       ├── Ambev.DeveloperEvaluation.WebApi.csproj.DotSettings
+│       ├── Ambev.DeveloperEvaluation.WebApi.csproj.user
+│       ├── Ambev.DeveloperEvaluation.WebApi.http
+│       ├── appsettings.Development.json
+│       ├── appsettings.json
+│       ├── Dockerfile
+│       └── Program.cs
+│   tests
+│   ├── Ambev.DeveloperEvaluation.Functional
+│   │   └── Ambev.DeveloperEvaluation.Functional.csproj
+│   ├── Ambev.DeveloperEvaluation.Integration
+│   │   ├── Ambev.DeveloperEvaluation.Integration.csproj
+│   │   └── Ambev.DeveloperEvaluation.TestIntegration.csproj
+│   └── Ambev.DeveloperEvaluation.Unit
+│       ├── Application
+│       │   ├── Sales
+│       │   │   ├── CancelSaleHandlerTests.cs
+│       │   │   ├── CancelSaleItemHandlerTests.cs
+│       │   │   ├── ChangeSaleHandler.cs
+│       │   │   ├── CreateSaleHandler.cs
+│       │   │   └── GetSaleHandler.cs
+│       │   ├── TestData
+│       │   │   └── CreateUserHandlerTestData.cs
+│       │   └── CreateUserHandlerTests.cs
+│       ├── Domain
+│       │   ├── Entities
+│       │   │   ├── SaleAggregate
+│       │   │   │   ├── TestData
+│       │   │   │   │   └── SaleTestData.cs
+│       │   │   │   └── SaleTestes.cs
+│       │   │   ├── TestData
+│       │   │   │   └── UserTestData.cs
+│       │   │   └── UserTests.cs
+│       │   ├── Specifications
+│       │   │   ├── TestData
+│       │   │   │   └── ActiveUserSpecificationTestData.cs
+│       │   │   └── ActiveUserSpecificationTests.cs
+│       │   └── Validation
+│       │       ├── EmailValidatorTests.cs
+│       │       ├── PasswordValidatorTests.cs
+│       │       ├── PhoneValidatorTests.cs
+│       │       └── UserValidatorTests.cs
+│       └── Ambev.DeveloperEvaluation.Unit.csproj
+│   .dockerignore
+│   .editorconfig
+│   Ambev.DeveloperEvaluation.RabbitSubscriber.sln
+│   Ambev.DeveloperEvaluation.sln
+│   Ambev.DeveloperEvaluation.sln.DotSettings.user
+│   coverage-report.bat
+│   coverage-report.sh
+│   docker-compose.dcproj
+│   docker-compose.override.yml
+│   docker-compose.yml
+│   Dockerfile
+│   launchSettings.json
