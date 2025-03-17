@@ -1,9 +1,7 @@
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Specifications;
-using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser
 {

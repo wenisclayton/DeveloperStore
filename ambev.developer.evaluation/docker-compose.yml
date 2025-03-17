@@ -1,6 +1,4 @@
-version: '3.8'
-
-services:
+﻿services:
   ambev.developerevaluation.webapi:
     container_name: ambev_developer_evaluation_webapi
     image: ${DOCKER_REGISTRY-}ambevdeveloperevaluationwebapi
@@ -17,6 +15,8 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    networks:
+      - ambev_net
 
   ambev.developerevaluation.database:
     container_name: ambev_developer_evaluation_database
@@ -27,24 +27,55 @@ services:
       POSTGRES_USER: developer
       POSTGRES_PASSWORD: ev@luAt10n
     ports:
-      - "5432"
+      - "5432:5432"
     restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - ambev_net
 
   ambev.developerevaluation.nosql:
-    container_name: ambev_developer_evaluation_nosql 
-    image: mongo:8.0    
+    container_name: ambev_developer_evaluation_nosql
+    image: mongo:8.0
     environment:
-        MONGO_INITDB_ROOT_USERNAME: developer
-        MONGO_INITDB_ROOT_PASSWORD: ev@luAt10n
+      MONGO_INITDB_ROOT_USERNAME: developer
+      MONGO_INITDB_ROOT_PASSWORD: ev@luAt10n
     ports:
-      - "27017"
+      - "27017:27017"
+    networks:
+      - ambev_net
 
-  ambev.developerevaluation.cache:
-    container_name: ambev_developer_evaluation_cache 
-    image: redis:7.4.1-alpine     
-    command: redis-server --requirepass ev@luAt10n
-    environment:
-       MONGO_INITDB_ROOT_USERNAME: developer
-       MONGO_INITDB_ROOT_PASSWORD: ev@luAt10n
+  # ambev.developerevaluation.cache:
+  #   container_name: ambev_developer_evaluation_cache
+  #   image: redis:7.4.1-alpine
+  #   command: redis-server --requirepass ev@luAt10n
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: developer
+  #     MONGO_INITDB_ROOT_PASSWORD: ev@luAt10n
+  #   ports:
+  #     - "6379"
+  #   networks:
+  #     - ambev_net
+
+  ambev.developerevaluation.rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ambev_developer_evaluation_rabbitmq
     ports:
-       - "6379"
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: developer
+      RABBITMQ_DEFAULT_PASS: ev@luAt10n
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - ambev_net
+
+volumes:
+  rabbitmq-data:
+  pgdata:
+
+
+networks:
+  ambev_net:
+    driver: bridge

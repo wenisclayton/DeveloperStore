@@ -1,14 +1,16 @@
+using MediatR;
+using Serilog;
+using Microsoft.EntityFrameworkCore;
+using Ambev.DeveloperEvaluation.IoC;
+using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.Application;
-using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
-using Ambev.DeveloperEvaluation.IoC;
-using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi.Extensions;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
+using Ambev.DeveloperEvaluation.Common.HealthChecks;
+using Ambev.DeveloperEvaluation.Integration.Events.Handlers;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
 
@@ -29,6 +31,7 @@ public class Program
             builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen();
 
+
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -45,17 +48,26 @@ public class Program
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
+                    typeof(Program).Assembly,
                     typeof(ApplicationLayer).Assembly,
-                    typeof(Program).Assembly
+                    typeof(SaleCreatedIntegrationEventHandler).Assembly
                 );
             });
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            builder.Services.AddRabbitMQIntegration(builder.Configuration);
+            builder.Services.AddInfrastructureMongoDb(builder.Configuration);
+
 
             var app = builder.Build();
+
+
+            app.MigrateAndSeedDatabase();
+
+
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Local")
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

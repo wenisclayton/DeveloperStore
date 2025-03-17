@@ -1,13 +1,15 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
-using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Application.Users.GetUser;
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
 
@@ -118,4 +120,40 @@ public class UsersController : BaseController
             Message = "User deleted successfully"
         });
     }
+
+    /// <summary>
+    /// Updates an existing user.
+    /// </summary>
+    /// <param name="id">The unique identifier of the user</param>
+    /// <param name="request">The update user request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The updated user details</returns>
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateUserResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
+    {
+        // Valida o request utilizando o validator correspondente
+        var validator = new UpdateUserRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        // Mapeia o request para o comando e atribui o id recebido pela rota
+        var command = _mapper.Map<UpdateUserCommand>(request);
+
+        // Envia o comando através do mediator
+        var response = await _mediator.Send(command, cancellationToken);
+
+        // Retorna a resposta com os dados atualizados do usuário
+        return Ok(new ApiResponseWithData<UpdateUserResponse>
+        {
+            Success = true,
+            Message = "User updated successfully",
+            Data = _mapper.Map<UpdateUserResponse>(response)
+        });
+    }
+
 }
