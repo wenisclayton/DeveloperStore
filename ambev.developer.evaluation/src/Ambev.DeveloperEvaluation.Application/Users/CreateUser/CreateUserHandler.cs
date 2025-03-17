@@ -12,8 +12,8 @@ namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 /// </summary>
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
 {
-    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
 
     /// <summary>
